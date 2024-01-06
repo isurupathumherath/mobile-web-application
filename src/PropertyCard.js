@@ -1,5 +1,6 @@
 import React from 'react';
-import './PropertyCard.css'; // Import the CSS for styling
+import './PropertyCard.css';
+import { Link } from 'react-router-dom';
 
 const PropertyCard = ({ property }) => {
     return (
@@ -8,8 +9,9 @@ const PropertyCard = ({ property }) => {
             <div className="property-info">
                 <h2 className="property-title">{property.type} - {property.bedrooms} Bedrooms</h2>
                 <p className="property-description">{property.description}</p>
-                <p className="property-price">Price: {property.price}</p>
-                {/* Add more property details as needed */}
+                <p className="property-price">Price: {property.price}</p><br/>
+                <Link to={`/property/${property.id}`} className="view-details-button">View Details</Link>
+                
             </div>
         </div>
     );

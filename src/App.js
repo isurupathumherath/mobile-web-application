@@ -4,6 +4,8 @@ import './App.css';
 import Header from './Header';
 import AdvancedSearch from './AdvancedSearch'; // Import the component
 import PropertyCard from './PropertyCard'; // Assuming you have this component
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import PropertyDetail from './PropertyDetail'; 
 
 const App = () => {
     const [properties, setProperties] = useState([]);
@@ -44,16 +46,23 @@ const App = () => {
     });
 
     return (
-        <div className="App">
-            <Header onBasicSearch={handleBasicSearch} toggleAdvancedSearch={toggleAdvancedSearch} />
-            {showAdvancedSearch && <AdvancedSearch onSearchChange={handleAdvancedSearchChange} />}
-            <div className="property-list">
-                {filteredProperties.map(property => (
-                    <PropertyCard key={property.id} property={property} />
-                ))}
-            </div>
-        </div>
-    );
+      <Router>
+          <Routes>
+              <Route path="/" element={
+                  <div className="App">
+                      <Header onBasicSearch={handleBasicSearch} toggleAdvancedSearch={toggleAdvancedSearch} />
+                      {showAdvancedSearch && <AdvancedSearch onSearchChange={handleAdvancedSearchChange} />}
+                      <div className="property-list">
+                          {filteredProperties.map(property => (
+                              <PropertyCard key={property.id} property={property} />
+                          ))}
+                      </div>
+                  </div>
+              } />
+              <Route path="/property/:id" element={<PropertyDetail />} />
+          </Routes>
+      </Router>
+  );
 };
 
 export default App;
