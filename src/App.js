@@ -14,50 +14,59 @@ const App = () => {
     const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
     const [favorites, setFavorites] = useState([]);
 
-
+    // Using the use effect option to get all the propeties from properties.json file. 
     useEffect(() => {
         fetch('/properties.json')
             .then(response => response.json())
             .then(data => setProperties(data.properties));
     }, []);
 
+    // Handling the Basic Search 
     const handleBasicSearch = (term) => {
         setSearchTerm(term);
         setShowAdvancedSearch(false); 
     };
 
+    // Handling the advanced Search Change 
     const handleAdvancedSearchChange = (criteria, value) => {
         setAdvancedSearchCriteria(prev => ({ ...prev, [criteria]: value }));
     };
 
+    // Handling the search preview
     const toggleAdvancedSearch = () => {
       setShowAdvancedSearch(prevShow => !prevShow);
     };
 
+    // Handling the drag
     const handleDragStart = (e, property) => {
       e.dataTransfer.setData("property", JSON.stringify(property));
   };
 
+    // Drop property in Favorite
     const handleDrop = (e) => {
       e.preventDefault();
       const property = JSON.parse(e.dataTransfer.getData("property"));
       handleFavorite(property);
   };
 
+  // Handling the favorite items
     const handleFavorite = (property) => {
       if (!favorites.some(fav => fav.id === property.id)) {
           setFavorites(prevFavorites => [...prevFavorites, property]);
       }
   };
 
+  // Remove favorite Items
   const handleRemoveFavorite = (id) => {
     setFavorites(favorites.filter(property => property.id !== id));
   };
 
+  // Drag and Handle the favorite items
   const handleDragStartFavorite = (e, property) => {
     e.dataTransfer.setData("favorite", property.id);
   };
 
+  // Drop the favorite items from the favorite tab
   const handleDropOutsideFavorites = (e) => {
     e.preventDefault();
     const favoriteId = e.dataTransfer.getData("favorite");
@@ -66,10 +75,12 @@ const App = () => {
     }
   };
 
+  // Remove all the favorite items
   const handleRemoveAllFavorites = () => {
     setFavorites([]);
   };
 
+    // Filtering in advanced search 
     const filteredProperties = properties.filter(property => {
         const matchesBasicSearch = property.type.toLowerCase().includes(searchTerm.toLowerCase());
 
