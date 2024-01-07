@@ -57,6 +57,21 @@
     margin-bottom: auto;
 }
 
+.advanced-button {
+    margin: 10px 0;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.advanced-button:hover {
+    background-color: #0056b3;
+}
+
 
 /* Responsive Design */
 @media (max-width: 768px) {

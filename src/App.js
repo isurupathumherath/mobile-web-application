@@ -6,14 +6,12 @@ import AdvancedSearch from './AdvancedSearch'; // Import the component
 import PropertyCard from './PropertyCard'; // Assuming you have this component
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PropertyDetail from './PropertyDetail'; 
-import PropertyModal from './PropertyModal';
 
 const App = () => {
     const [properties, setProperties] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [advancedSearchCriteria, setAdvancedSearchCriteria] = useState({});
     const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
-    const [selectedProperty, setSelectedProperty] = useState(null);
 
 
     useEffect(() => {
@@ -46,15 +44,6 @@ const App = () => {
 
         return showAdvancedSearch ? matchesAdvancedSearch : matchesBasicSearch;
     });
-
-    const openModal = (property) => {
-      setSelectedProperty(property);
-    };
-
-    const closeModal = () => {
-        setSelectedProperty(null);
-    };
-
 
     return (
       <Router>

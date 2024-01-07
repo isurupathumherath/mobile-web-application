@@ -27,7 +27,7 @@ const Header = ({ onBasicSearch, toggleAdvancedSearch }) => {
                 </button>
             </div>
             <div className="advanced-search">
-                <button onClick={toggleAdvancedSearch}>Advanced Search</button>
+                <button className='advanced-button' onClick={toggleAdvancedSearch}>Advanced Search</button>
             </div>
         </header>
     );

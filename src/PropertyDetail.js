@@ -1,38 +1,91 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import './PropertyDetail.css'; // Make sure to create this CSS file for styling
+import { useParams, useNavigate } from 'react-router-dom';
+import ImageGallery from 'react-image-gallery';
+import 'react-image-gallery/styles/css/image-gallery.css';
+import './PropertyDetail.css';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
 
 const PropertyDetail = () => {
+    const navigate = useNavigate();
     const { id } = useParams();
     const [property, setProperty] = useState(null);
 
     useEffect(() => {
-        // Fetch the specific property details from properties.json
         fetch('/properties.json')
             .then(response => response.json())
             .then(data => {
-                const detail = data.properties.find(p => p.id.toString() === id);
+                const detail = data.properties.find(p => p.id === id);
                 setProperty(detail);
             });
-            
     }, [id]);
 
     if (!property) {
         return <div>Loading...</div>;
     }
 
+    const images = property.pictures.map(pic => ({
+        original: pic,
+        thumbnail: pic 
+    }));
+
+    // Define your map container style
+    const containerStyle = {
+        width: '100%',
+        height: '400px'
+    };
+
+    // Assuming your property has latitude and longitude properties
+    const center = {
+        lat: property.latitude,
+        lng: property.longitude
+    };
+
+    const formatDate = (added) => {
+        return `${added.month} ${added.day}, ${added.year}`;
+    };
+
+    const handleBack = () => {
+        navigate('/'); // Navigates back to the home page
+    };
+
     return (
         <div className="property-detail-container">
-            <h2>{property.title}</h2>
-            <img 
-                src={`/images/${property.image}`} 
-                alt={property.title} 
-                className="property-image" 
-            />
+            <h2>{property.type}</h2>
+            <ImageGallery items={images} />
+            <div className="property-info">
+                {/* Property info here */}
+            </div>
+            <LoadScript googleMapsApiKey="YOUR_GOOGLE_MAPS_API_KEY">
+                <GoogleMap
+                    mapContainerStyle={containerStyle}
+                    center={center}
+                    zoom={15}
+                >
+                    <Marker position={center} />
+                </GoogleMap>
+            </LoadScript>
+            <div>
+                <p><strong>Type:</strong> {property.type}</p>
+                <p><strong>Price:</strong> ${property.price.toLocaleString()}</p>
+                <p><strong>Location:</strong> {property.location}</p>
+                <p><strong>Added Date:</strong> {formatDate(property.added)}</p>
+                <Tabs>
+                <TabList>
+                    <Tab>Description</Tab>
+                    <Tab>Floor Plan</Tab>
+                </TabList>
 
-            {/* Display other property details */}
-            <p>{property.description}</p>
-            {/* Add more fields as needed */}
+                <TabPanel>
+                    <p>{property.description}</p>
+                </TabPanel>
+                <TabPanel>
+                    <img src={property.floorPlan} alt="Floor Plan" />
+                </TabPanel>
+            </Tabs>
+            </div>
+            <center><button className="back-button" onClick={handleBack}>Back to Home</button></center>
         </div>
     );
 };
