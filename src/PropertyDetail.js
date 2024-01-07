@@ -14,6 +14,7 @@ const PropertyDetail = () => {
                 const detail = data.properties.find(p => p.id.toString() === id);
                 setProperty(detail);
             });
+            
     }, [id]);
 
     if (!property) {
