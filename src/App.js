@@ -1,9 +1,8 @@
-// App.js
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import Header from './Header';
-import AdvancedSearch from './AdvancedSearch'; // Import the component
-import PropertyCard from './PropertyCard'; // Assuming you have this component
+import AdvancedSearch from './AdvancedSearch'; 
+import PropertyCard from './PropertyCard'; 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PropertyDetail from './PropertyDetail'; 
 import FavoriteCart from './FavoriteCart';
@@ -17,7 +16,6 @@ const App = () => {
 
 
     useEffect(() => {
-        // Fetch properties.json
         fetch('/properties.json')
             .then(response => response.json())
             .then(data => setProperties(data.properties));
@@ -25,7 +23,7 @@ const App = () => {
 
     const handleBasicSearch = (term) => {
         setSearchTerm(term);
-        setShowAdvancedSearch(false); // Hide advanced search when using basic search
+        setShowAdvancedSearch(false); 
     };
 
     const handleAdvancedSearchChange = (criteria, value) => {
@@ -76,7 +74,7 @@ const App = () => {
         const matchesBasicSearch = property.type.toLowerCase().includes(searchTerm.toLowerCase());
 
         const matchesAdvancedSearch = Object.keys(advancedSearchCriteria).every(key => {
-            if (!property[key]) return true; // If the property doesn't have the key, skip this criterion
+            if (!property[key]) return true; 
             return property[key].toString().toLowerCase().includes(advancedSearchCriteria[key].toLowerCase());
         });
 

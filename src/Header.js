@@ -1,5 +1,5 @@
 import React from 'react';
-import './Header.css'; // Import the CSS for styling'
+import './Header.css';
 import logo from './common-images/logo.png';
 import favorite from './common-images/favorite.png';
 
@@ -18,7 +18,7 @@ const Header = ({ onBasicSearch, toggleAdvancedSearch }) => {
                     onChange={e => onBasicSearch(e.target.value)}
                 />
                 <button className="search-button">
-                    <i className="fas fa-search"></i> {/* Font Awesome Icon */}
+                    <i className="fas fa-search"></i> 
                 </button>
             </div>
             <div className="favorites">

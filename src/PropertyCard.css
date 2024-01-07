@@ -1,7 +1,7 @@
 .property-list {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between; /* Adjusted for even spacing */
+    justify-content: space-between; 
     padding: 0;
     margin: 0;
 }
@@ -13,12 +13,12 @@
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     margin: 10px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    flex-basis: calc(33% - 20px); /* Adjusted for three cards per row */
-    max-width: calc(33% - 20px); /* Ensure cards don't exceed their portion */
+    flex-basis: calc(33% - 20px); 
+    max-width: calc(33% - 20px); 
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Aligns content vertically center */
-    text-align: center; /* Aligns text horizontally center */
+    justify-content: center; 
+    text-align: center; 
 }
 
 .property-card:hover {

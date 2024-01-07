@@ -30,13 +30,12 @@ const PropertyDetail = () => {
         thumbnail: pic 
     }));
 
-    // Define your map container style
+   
     const containerStyle = {
         width: '100%',
         height: '400px'
     };
 
-    // Assuming your property has latitude and longitude properties
     const center = {
         lat: property.latitude,
         lng: property.longitude
@@ -47,7 +46,7 @@ const PropertyDetail = () => {
     };
 
     const handleBack = () => {
-        navigate('/'); // Navigates back to the home page
+        navigate('/'); 
     };
 
     return (
@@ -55,7 +54,6 @@ const PropertyDetail = () => {
             <h2>{property.type}</h2>
             <ImageGallery items={images} />
             <div className="property-info">
-                {/* Property info here */}
             </div>
             <LoadScript googleMapsApiKey="YOUR_GOOGLE_MAPS_API_KEY">
                 <GoogleMap
