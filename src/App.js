@@ -6,12 +6,14 @@ import AdvancedSearch from './AdvancedSearch'; // Import the component
 import PropertyCard from './PropertyCard'; // Assuming you have this component
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PropertyDetail from './PropertyDetail'; 
+import FavoriteCart from './FavoriteCart';
 
 const App = () => {
     const [properties, setProperties] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [advancedSearchCriteria, setAdvancedSearchCriteria] = useState({});
     const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
+    const [favorites, setFavorites] = useState([]);
 
 
     useEffect(() => {
@@ -34,6 +36,42 @@ const App = () => {
       setShowAdvancedSearch(prevShow => !prevShow);
     };
 
+    const handleDragStart = (e, property) => {
+      e.dataTransfer.setData("property", JSON.stringify(property));
+  };
+
+    const handleDrop = (e) => {
+      e.preventDefault();
+      const property = JSON.parse(e.dataTransfer.getData("property"));
+      handleFavorite(property);
+  };
+
+    const handleFavorite = (property) => {
+      if (!favorites.some(fav => fav.id === property.id)) {
+          setFavorites(prevFavorites => [...prevFavorites, property]);
+      }
+  };
+
+  const handleRemoveFavorite = (id) => {
+    setFavorites(favorites.filter(property => property.id !== id));
+  };
+
+  const handleDragStartFavorite = (e, property) => {
+    e.dataTransfer.setData("favorite", property.id);
+  };
+
+  const handleDropOutsideFavorites = (e) => {
+    e.preventDefault();
+    const favoriteId = e.dataTransfer.getData("favorite");
+    if (favoriteId) {
+      handleRemoveFavorite(favoriteId);
+    }
+  };
+
+  const handleRemoveAllFavorites = () => {
+    setFavorites([]);
+  };
+
     const filteredProperties = properties.filter(property => {
         const matchesBasicSearch = property.type.toLowerCase().includes(searchTerm.toLowerCase());
 
@@ -50,14 +88,20 @@ const App = () => {
           <Routes>
               <Route path="/" element={
                   <div className="App">
-                      <Header onBasicSearch={handleBasicSearch} toggleAdvancedSearch={toggleAdvancedSearch} />
-                      {showAdvancedSearch && <AdvancedSearch onSearchChange={handleAdvancedSearchChange} />}
-                      <div className="property-list">
-                          {filteredProperties.map(property => (
-                              <PropertyCard key={property.id} property={property} />
-                          ))}
+                    <Header onBasicSearch={handleBasicSearch} toggleAdvancedSearch={toggleAdvancedSearch} />
+                    <div className="app-container" onDrop={handleDropOutsideFavorites} onDragOver={(e) => e.preventDefault()}>
+                      <div className="current-view">
+                        {showAdvancedSearch && <AdvancedSearch onSearchChange={handleAdvancedSearchChange} />}
+                        <div className="property-list">
+                            {filteredProperties.map(property => (
+                                <PropertyCard key={property.id} property={property} onDragStart={handleDragStart} onFavorite={handleFavorite} />
+                            ))}
+                        </div>
                       </div>
-                      
+                      <div className="favorite-cart">
+                        <FavoriteCart onDrop={handleDrop} favorites={favorites} onRemove={handleRemoveFavorite} onDragStartFavorite={handleDragStartFavorite} onRemoveAll={handleRemoveAllFavorites}/>
+                      </div>
+                    </div>
                   </div>
               } />
               <Route path="/property/:id" element={<PropertyDetail />} />

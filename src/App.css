@@ -36,3 +36,20 @@
     transform: rotate(360deg);
   }
 }
+
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.current-view {
+  flex-grow: 2; 
+  width: 60%;
+}
+
+.favorite-cart {
+  width: 20%; 
+  border-left: 1px solid #ccc; 
+}
+
+

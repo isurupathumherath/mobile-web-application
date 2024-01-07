@@ -52,7 +52,7 @@
             "tenure": "Leasehold",
             "description": "Spacious four-bedroom townhouse in a vibrant neighborhood. Features a modern kitchen, a rooftop terrace, and a cozy living room. Close to public transport and local amenities.",
             "location": "Greenwich, London",
-            "image": "images/prop3pic1small.jpg",
+            "image": "images/prop3pic1small.png",
             "floorPlan": "../images/floors/prop3plan.jpg",
             "pictures": [
                 "../images/thumb/prop1pic1.jpg",
